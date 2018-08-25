@@ -37,6 +37,7 @@ public class ChatActivity extends AppCompatActivity implements ResponseListener{
         model = ViewModelProviders.of(this).get(ChatViewModel.class);
     }
 
+    //Method to initialize views and attach listeners
     private void initViews(){
         mMessageText = findViewById(R.id.et_message);
         mSendButton = findViewById(R.id.btn_send);
@@ -83,6 +84,7 @@ public class ChatActivity extends AppCompatActivity implements ResponseListener{
 
     }
 
+    //Method to refresh list when data is changed
     private void refreshList(){
         if(mRecyclerView.getAdapter() != null){
             ((ChatListAdapter)mRecyclerView.getAdapter()).refresh(model.getChats());

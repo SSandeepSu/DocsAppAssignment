@@ -1,46 +1,40 @@
 package example.docsapp.utils;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Chat {
 
     private String message;
-    private Long time;
     private boolean isFromUser;
 
-    public Chat(String message, Long time, boolean isFromUser) {
+    //Constructor to generate local message object.
+    public Chat(String message, boolean isFromUser) {
         this.message = message;
-        this.time = time;
         this.isFromUser = isFromUser;
     }
 
+    //Constructor to generate message object from response. Only deserializing message as I am not using anything else from JSON object.
+    //Also not handling any error conditions as API doesn't mention any error conditions.
     public Chat(String responseJson){
         JsonParser parser = new JsonParser();
         JsonObject response = parser.parse(responseJson).getAsJsonObject();
-        if(response.has("message")){
-            JsonObject messageJson = response.getAsJsonObject("message");
-            if(messageJson.has("message")){
-                this.message = String.valueOf(messageJson.get("message"));
+        if(response.has(Constants.MESSAGE)){
+            JsonObject messageJson = response.getAsJsonObject(Constants.MESSAGE);
+            if(messageJson.has(Constants.MESSAGE)){
+                this.message = String.valueOf(messageJson.get(Constants.MESSAGE));
             }
         }
     }
 
+
+    //Getters and setters
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public Long getTime() {
-        return time;
-    }
-
-    public void setTime(Long time) {
-        this.time = time;
     }
 
     public boolean isFromUser() {

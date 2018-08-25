@@ -9,6 +9,7 @@ import example.docsapp.utils.Chat;
 
 public class ChatViewModel extends ViewModel {
 
+    //List to store messaging data.
     private List<Chat> chats;
 
     public List<Chat> getChats(){
@@ -20,7 +21,7 @@ public class ChatViewModel extends ViewModel {
     }
 
     public void addMessageToChats(String entity, boolean isFromUser){
-        Chat chat = isFromUser ? new Chat(entity, System.currentTimeMillis(), true) : new Chat(entity);
+        Chat chat = isFromUser ? new Chat(entity, true) : new Chat(entity);
         getChats().add(chat);
     }
 

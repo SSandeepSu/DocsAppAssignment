@@ -17,17 +17,20 @@ import example.docsapp.utils.ResponseListener;
 
 public class NetworkHelper {
 
+    private NetworkHelper(){
+        //Private constructor to hide the implicit one.
+    }
+
     private static final String HOST = "https://www.personalityforge.com/api/chat/?";
     private static final String API_KEY = "6nt5d1nJHkqbkphe";
     private static final String CHAT_BOT_ID = "63906";
     private static final String EXTERNAL_ID = "chirag1";
 
+    //This method builds the url and sends the GET request
     public static void sendMessage(final Context context, String message) {
         try {
             String url = getUrl(message);
-
             RequestQueue queue = Volley.newRequestQueue(context);
-
             StringRequest request = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
                         @Override
@@ -40,14 +43,13 @@ public class NetworkHelper {
                     ((ResponseListener)context).onFailureResponse(error.networkResponse);
                 }
             });
-
-        queue.add(request);
+            queue.add(request);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-
+    //Helper method to get the URL string
     private static String getUrl(String message) throws UnsupportedEncodingException {
         return HOST +
                 Constants.KEY_API_KEY +
