@@ -77,6 +77,7 @@ public class ChatActivity extends AppCompatActivity implements ResponseListener{
                 model.addMessageToChats(message, true);
                 NetworkHelper.sendMessage(ChatActivity.this, message);
                 mMessageText.getText().clear();
+                refreshList();
             }
         });
 
@@ -88,6 +89,7 @@ public class ChatActivity extends AppCompatActivity implements ResponseListener{
         } else {
             mRecyclerView.setAdapter(new ChatListAdapter(this, model.getChats()));
         }
+        mRecyclerView.scrollToPosition(model.getChats().size()-1);
     }
 
     @Override

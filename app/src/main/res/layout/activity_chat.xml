@@ -12,24 +12,24 @@
         android:layout_alignParentBottom="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:paddingStart="8dp"
         android:orientation="horizontal">
-
 
         <EditText
             android:id="@+id/et_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:background="@android:color/transparent"
             android:hint="@string/type_your_message" />
-
 
         <Button
             android:id="@+id/btn_send"
+            style="@style/AppTheme.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.02"
             android:text="@string/send"/>
-
 
     </LinearLayout>
 
@@ -42,7 +42,6 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_messages"
-        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/divider_view"
