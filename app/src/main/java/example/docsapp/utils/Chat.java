@@ -1,9 +1,12 @@
 package example.docsapp.utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class Chat {
+public class Chat implements Parcelable {
 
     private String message;
     private boolean isFromUser;
@@ -44,4 +47,35 @@ public class Chat {
     public void setFromUser(boolean fromUser) {
         isFromUser = fromUser;
     }
+
+
+    /*******************Parcel methods**************/
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.message);
+        dest.writeByte(this.isFromUser ? (byte) 1 : (byte) 0);
+    }
+
+    protected Chat(Parcel in) {
+        this.message = in.readString();
+        this.isFromUser = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<Chat> CREATOR = new Parcelable.Creator<Chat>() {
+        @Override
+        public Chat createFromParcel(Parcel source) {
+            return new Chat(source);
+        }
+
+        @Override
+        public Chat[] newArray(int size) {
+            return new Chat[size];
+        }
+    };
 }

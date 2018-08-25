@@ -32,9 +32,8 @@ public class ChatActivity extends AppCompatActivity implements ResponseListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         setTitle(getString(R.string.title));
-        initViews();
-
         model = ViewModelProviders.of(this).get(ChatViewModel.class);
+        initViews();
     }
 
     //Method to initialize views and attach listeners
@@ -47,6 +46,7 @@ public class ChatActivity extends AppCompatActivity implements ResponseListener{
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        refreshList();
 
         //Text watcher
         mMessageText.addTextChangedListener(new TextWatcher() {
@@ -87,11 +87,11 @@ public class ChatActivity extends AppCompatActivity implements ResponseListener{
     //Method to refresh list when data is changed
     private void refreshList(){
         if(mRecyclerView.getAdapter() != null){
-            ((ChatListAdapter)mRecyclerView.getAdapter()).refresh(model.getChats());
+            ((ChatListAdapter)mRecyclerView.getAdapter()).refresh(model.getChats(this));
         } else {
-            mRecyclerView.setAdapter(new ChatListAdapter(this, model.getChats()));
+            mRecyclerView.setAdapter(new ChatListAdapter(this, model.getChats(this)));
         }
-        mRecyclerView.scrollToPosition(model.getChats().size()-1);
+        mRecyclerView.scrollToPosition(model.getChats(this).size()-1);
     }
 
     @Override
@@ -103,5 +103,12 @@ public class ChatActivity extends AppCompatActivity implements ResponseListener{
     @Override
     public void onFailureResponse(NetworkResponse response) {
         Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+    }
+
+    //Saving data to persistent storage on onStop
+    @Override
+    protected void onStop() {
+        super.onStop();
+        model.saveData(this);
     }
 }
